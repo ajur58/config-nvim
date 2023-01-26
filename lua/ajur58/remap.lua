@@ -3,6 +3,8 @@ vim.g.mapleader = " "
 -- Open Nvim Tree Explorer
 vim.keymap.set("n", "<leader>mc", ":NvimTreeToggle<cr>")
 
+-- Exit Terminal mode
+vim.keymap.set("t", "<leader><Esc>", "<C-\\><C-n>")
 
 -- Code Formatter
 vim.keymap.set("n", "<leader>f", vim.lsp.buf.format)
@@ -42,8 +44,8 @@ vim.keymap.set("n", "<leader>Y", [["+Y]])
 vim.keymap.set("n", "Q", "<nop>")
 
 -- Quick Fix List Navigation -> note, look into it
-vim.keymap.set("n", "<C-k>", "<cmd>cnext<CR>zz")
-vim.keymap.set("n", "<C-j>", "<cmd>cprev<CR>zz")
+-- vim.keymap.set("n", "<C-k>", "<cmd>cnext<CR>zz")
+-- vim.keymap.set("n", "<C-j>", "<cmd>cprev<CR>zz")
 vim.keymap.set("n", "<leader>k", "<cmd>lnext<CR>zz")
 vim.keymap.set("n", "<leader>j", "<cmd>lprev<CR>zz")
 
