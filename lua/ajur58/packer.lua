@@ -3,27 +3,10 @@ require('packer').startup(function(use)
 
     -- the plugin manager can manage itself
     use { 'wbthomason/packer.nvim' }
-
-    -- lsp config for elixir-ls support
-    use { 'neovim/nvim-lspconfig' }
-
-    -- cmp framework for auto-completion support
-    use { 'hrsh7th/nvim-cmp' }
-
-    -- install different completion source
-    use { 'hrsh7th/cmp-nvim-lsp' }
-    use { 'hrsh7th/cmp-buffer' }
-    use { 'hrsh7th/cmp-path' }
-    use { 'hrsh7th/cmp-cmdline' }
-
-    -- you need a snippet engine for snippet support
-    -- here I'm using vsnip which can load snippets in vscode format
-    use { 'hrsh7th/vim-vsnip' }
-    use { 'hrsh7th/cmp-vsnip' }
+    use { 'theprimeagen/harpoon' }
 
     -- treesitter for syntax highlighting and more
     use('nvim-treesitter/nvim-treesitter', { run = ':TSUpdate' })
-    use('theprimeagen/harpoon')
     -- File Explorer
     use {
         'nvim-tree/nvim-tree.lua',
@@ -43,7 +26,7 @@ require('packer').startup(function(use)
         as = 'rose-pine',
         config = function()
             require("rose-pine").setup()
-            vim.cmd.colorscheme('rose-pine')
+            vim.cmd('colorscheme rose-pine')
         end
     })
 
@@ -68,6 +51,8 @@ require('packer').startup(function(use)
             { 'hrsh7th/cmp-nvim-lua' }, -- Optional
 
             -- Snippets
+            -- { 'hrsh7th/cmp-vsnip' }, -- Optional
+            -- { 'hrsh7th/vim-vsnip' }, -- Optional
             { 'L3MON4D3/LuaSnip' }, -- Required
             { 'rafamadriz/friendly-snippets' }, -- Optional
         }
