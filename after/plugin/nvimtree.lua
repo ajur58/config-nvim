@@ -19,6 +19,12 @@ local function open_nvim_tree(data)
     require("nvim-tree.api").tree.open()
 end
 
-require("nvim-tree").setup()
+require("nvim-tree").setup({
+    update_focused_file = {
+        enable = true,
+        update_root = false,
+        ignore_list = {},
+    },
+})
 -- Open Tree when opening a folder
 vim.api.nvim_create_autocmd({ "VimEnter" }, { callback = open_nvim_tree })
