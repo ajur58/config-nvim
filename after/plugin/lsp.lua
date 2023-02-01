@@ -24,8 +24,8 @@ cmp.setup {
     snippet = {
         -- REQUIRED - you must specify a snippet engine
         expand = function(args)
-            -- vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
-            require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
+            vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
+            --           require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
             -- require('snippy').expand_snippet(args.body) -- For `snippy` users.
             -- vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
         end,
@@ -39,8 +39,8 @@ cmp.setup {
         { name = 'path' },
         { name = 'nvim_lsp', keyword_length = 3 },
         { name = 'buffer', keyword_length = 3 },
-        -- { name = 'vsnip' }, -- For vsnip users.
-        { name = 'luasnip', keyword_length = 2 },
+        { name = 'vsnip' }, -- For vsnip users.
+        --{ name = 'luasnip', keyword_length = 2 },
     }
 }
 

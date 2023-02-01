@@ -43,13 +43,13 @@ require('packer').startup(function(use)
     use { 'hrsh7th/cmp-nvim-lsp' } -- Required
     use { 'hrsh7th/cmp-buffer' } -- Optional
     use { 'hrsh7th/cmp-path' } -- Optional
-    use { 'saadparwaiz1/cmp_luasnip' } -- Optional
-    use { 'hrsh7th/cmp-nvim-lua' } -- Optional
+    -- use { 'saadparwaiz1/cmp_luasnip' } -- Optional
+    -- use { 'hrsh7th/cmp-nvim-lua' } -- Optional
 
     -- Snippets
-    -- use { 'hrsh7th/cmp-vsnip' } -- Optional
-    -- use { 'hrsh7th/vim-vsnip' } -- Optional
-    use { 'L3MON4D3/LuaSnip' } -- Required
-    use { 'rafamadriz/friendly-snippets' } -- Optional
+    use { 'hrsh7th/cmp-vsnip' } -- Optional
+    use { 'hrsh7th/vim-vsnip' } -- Optional
+    -- use { 'L3MON4D3/LuaSnip' } -- Required
+    -- use { 'rafamadriz/friendly-snippets' } -- Optional
 
 end)
