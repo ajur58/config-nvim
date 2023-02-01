@@ -89,7 +89,7 @@ lspconfig.html.setup({
     on_attach = lsp_attach,
     capabilities = lsp_capabilities,
 
-    filetypes = { "html", "heex" }
+    filetypes = { "html", "heex", "jsx", "ex" }
 })
 
 vim.diagnostic.config({
