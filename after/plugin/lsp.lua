@@ -87,7 +87,7 @@ lspconfig.sumneko_lua.setup({
 lspconfig.html.setup({
     on_attach = lsp_attach,
     capabilities = lsp_capabilities,
-    filetypes = { "html", "heex", "jsx", "elixir", "eelixir" }
+    --filetypes = { "html", "heex", "jsx", "elixir", "eelixir" }
 })
 
 vim.diagnostic.config({
