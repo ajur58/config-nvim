@@ -6,4 +6,8 @@ require 'nvim-treesitter.configs'.setup {
     highlight = {
         enable = true,
     },
+    autotag = {
+        enable = true,
+        filetypes = { "html", "jsx", "eelixir", "elixir", "heex" },
+    },
 }

@@ -94,6 +94,11 @@ _G.packer_plugins = {
     path = "/home/ajur58/.local/share/nvim/site/pack/packer/start/cmp-vsnip",
     url = "https://github.com/hrsh7th/cmp-vsnip"
   },
+  ["friendly-snippets"] = {
+    loaded = true,
+    path = "/Users/adamjuras/.local/share/nvim/site/pack/packer/start/friendly-snippets",
+    url = "https://github.com/rafamadriz/friendly-snippets"
+  },
   harpoon = {
     loaded = true,
     path = "/home/ajur58/.local/share/nvim/site/pack/packer/start/harpoon",
