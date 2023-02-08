@@ -69,5 +69,4 @@ require('packer').startup(function(use)
     use { 'hrsh7th/vim-vsnip' } -- Optional
     -- use { 'L3MON4D3/LuaSnip' } -- Required
     use { 'rafamadriz/friendly-snippets' } -- Optional
-
 end)

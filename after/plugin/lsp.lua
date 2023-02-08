@@ -4,8 +4,8 @@ require('mason-lspconfig').setup({
     ensure_installed = {
         -- Replace these with whatever servers you want to install
         'elixirls',
-        'tailwindcss',
         'rust_analyzer',
+        'tailwindcss',
         'tsserver',
         'html'
     }
@@ -14,11 +14,11 @@ require('mason-lspconfig').setup({
 local cmp = require('cmp')
 local cmp_select = { behavior = cmp.SelectBehavior.Select }
 local cmp_mappings = cmp.mapping.preset.insert({
-    ['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
-    ['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
-    ['<C-y>'] = cmp.mapping.confirm({ select = true }),
-    ["<C-Space>"] = cmp.mapping.complete(),
-})
+        ['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
+        ['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
+        ['<C-y>'] = cmp.mapping.confirm({ select = true }),
+        ["<C-Space>"] = cmp.mapping.complete(),
+    })
 
 cmp.setup {
     snippet = {
@@ -37,8 +37,8 @@ cmp.setup {
     mapping = cmp_mappings,
     sources = {
         { name = 'path' },
-        { name = 'nvim_lsp', keyword_length = 3 },
-        { name = 'buffer', keyword_length = 3 },
+        { name = 'nvim_lsp', keyword_length = 4 },
+        { name = 'buffer',   keyword_length = 3 },
         { name = 'vsnip' }, -- For vsnip users.
         --{ name = 'luasnip', keyword_length = 2 },
     }
@@ -75,7 +75,6 @@ require('mason-lspconfig').setup_handlers({
 lspconfig.sumneko_lua.setup({
     on_attach = lsp_attach,
     capabilities = lsp_capabilities,
-
     settings = {
         Lua = {
             diagnostics = {
@@ -88,7 +87,6 @@ lspconfig.sumneko_lua.setup({
 lspconfig.html.setup({
     on_attach = lsp_attach,
     capabilities = lsp_capabilities,
-
     filetypes = { "html", "heex", "jsx", "elixir", "eelixir" }
 })
 
