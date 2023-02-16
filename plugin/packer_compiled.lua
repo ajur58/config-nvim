@@ -96,7 +96,7 @@ _G.packer_plugins = {
   },
   ["friendly-snippets"] = {
     loaded = true,
-    path = "/Users/adamjuras/.local/share/nvim/site/pack/packer/start/friendly-snippets",
+    path = "/home/ajur58/.local/share/nvim/site/pack/packer/start/friendly-snippets",
     url = "https://github.com/rafamadriz/friendly-snippets"
   },
   harpoon = {

@@ -14,6 +14,8 @@ vim.cmd [[autocmd BufWritePre * lua vim.lsp.buf.format()]]
 -- Shorten function name
 local keymap = vim.keymap.set
 
+-- search and replace
+keymap("n", "S", ":%s//g<Left><Left>")
 -- Move between windows
 keymap("n", "<C-h>", "<C-w>h")
 keymap("n", "<C-l>", "<C-w>l")
