@@ -5,7 +5,6 @@ require('mason-lspconfig').setup({
         -- Replace these with whatever servers you want to install
         'elixirls',
         'rust_analyzer',
-        'tailwindcss',
         'tsserver',
         'html'
     }
@@ -72,7 +71,7 @@ require('mason-lspconfig').setup_handlers({
 })
 
 -- Fix Undefined global 'vim'
-lspconfig.sumneko_lua.setup({
+lspconfig.lua_ls.setup({
     on_attach = lsp_attach,
     capabilities = lsp_capabilities,
     settings = {
