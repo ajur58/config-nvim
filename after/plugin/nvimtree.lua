@@ -1,5 +1,4 @@
 local function open_nvim_tree(data)
-
     -- buffer is a [No Name]
     local no_name = data.file == "" and vim.bo[data.buf].buftype == ""
 
@@ -20,6 +19,9 @@ local function open_nvim_tree(data)
 end
 
 require("nvim-tree").setup({
+    view = {
+        width = 35,
+    },
     update_focused_file = {
         enable = true,
         update_root = false,

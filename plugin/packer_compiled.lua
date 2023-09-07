@@ -179,6 +179,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/adamjuras/.local/share/nvim/site/pack/packer/start/vim-vsnip",
     url = "https://github.com/hrsh7th/vim-vsnip"
+  },
+  ["vim-wakatime"] = {
+    loaded = true,
+    path = "/Users/adamjuras/.local/share/nvim/site/pack/packer/start/vim-wakatime",
+    url = "https://github.com/wakatime/vim-wakatime"
   }
 }
 
