@@ -6,18 +6,19 @@ require('mason-lspconfig').setup({
         'elixirls',
         'rust_analyzer',
         'tsserver',
-        'html'
+        'html',
+        --'tailwindcss'
     }
 })
 
 local cmp = require('cmp')
 local cmp_select = { behavior = cmp.SelectBehavior.Select }
 local cmp_mappings = cmp.mapping.preset.insert({
-        ['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
-        ['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
-        ['<C-y>'] = cmp.mapping.confirm({ select = true }),
-        ["<C-Space>"] = cmp.mapping.complete(),
-    })
+    ['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
+    ['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
+    ['<C-y>'] = cmp.mapping.confirm({ select = true }),
+    ["<C-Space>"] = cmp.mapping.complete(),
+})
 
 cmp.setup {
     snippet = {
@@ -86,8 +87,13 @@ lspconfig.lua_ls.setup({
 lspconfig.html.setup({
     on_attach = lsp_attach,
     capabilities = lsp_capabilities,
-    --filetypes = { "html", "heex", "jsx", "elixir", "eelixir" }
+    filetypes = { "html", "heex", "jsx" }
 })
+--[[
+lspconfig.tailwindcss.setup {
+    on_attach = lsp_attach,
+    capabilities = lsp_capabilities
+}--]]
 
 vim.diagnostic.config({
     virtual_text = true

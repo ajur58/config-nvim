@@ -16,6 +16,7 @@ end
 -- ensure the plugin manager is installed
 ensure("wbthomason", "packer.nvim")
 
+-- PACKER IS NO LONGER MAINTAINED, SWITCH TO LAZY.NVIM
 require('packer').startup(function(use)
     -- install all the plugins you need here
 
