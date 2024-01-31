@@ -6,7 +6,6 @@ require('mason-lspconfig').setup({
         'elixirls',
         'rust_analyzer',
         'tsserver',
-        'html',
         --'tailwindcss'
     }
 })
@@ -87,7 +86,7 @@ lspconfig.lua_ls.setup({
 lspconfig.html.setup({
     on_attach = lsp_attach,
     capabilities = lsp_capabilities,
-    filetypes = { "html", "heex", "jsx" }
+    filetypes = { "html", "jsx" }
 })
 --[[
 lspconfig.tailwindcss.setup {
