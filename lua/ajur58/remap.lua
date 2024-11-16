@@ -1,4 +1,3 @@
-vim.g.mapleader = " "
 
 -- Open Nvim Tree Explorer
 vim.keymap.set("n", "<leader>mc", ":NvimTreeToggle<cr>")
@@ -22,13 +21,6 @@ keymap("n", "<C-l>", "<C-w>l")
 keymap("n", "<C-k>", "<C-w>k")
 keymap("n", "<C-j>", "<C-w>j")
 
--- Telescope
-local builtin = require('telescope.builtin')
-keymap('n', '<leader>ff', builtin.find_files, {})
-keymap('n', '<leader>fg', builtin.git_files, {})
-keymap('n', '<leader>fp', function()
-    builtin.grep_string({ search = vim.fn.input("Grep > ") });
-end)
 
 -- In Visual mode, move lines up or down
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")

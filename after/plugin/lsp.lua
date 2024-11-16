@@ -1,12 +1,23 @@
-require('mason').setup()
+require('mason').setup({
+  ui = {
+    icons = {
+      package_installed = "✓",
+      package_pending = "➜",
+      package_uninstalled = "✗"
+    }
+  }
+})
 
 require('mason-lspconfig').setup({
   ensure_installed = {
-    -- Replace these with whatever servers you want to install
+    'lua_ls',
     'elixirls',
     'rust_analyzer',
-    'marksman'
-  }
+    'marksman',
+    'html',
+    'tailwindcss'
+  },
+  automatic_installation = true,
 })
 
 local cmp = require('cmp')
@@ -92,6 +103,83 @@ lspconfig.marksman.setup({
   on_attach = lsp_attach,
   capabilities = lsp_capabilities,
   filetypes = { "markdown", "markdown.mdx" }
+})
+
+-- Tailwind CSS setup
+lspconfig.tailwindcss.setup({
+  on_attach = lsp_attach,
+  capabilities = lsp_capabilities,
+  filetypes = { 
+    "aspnetcorerazor", 
+    "astro",
+    "astro-markdown",
+    "blade",
+    "django-html",
+    "htmldjango",
+    "edge",
+    "eelixir",
+    "elixir",
+    "ejs",
+    "erb",
+    "eruby",
+    "gohtml",
+    "haml",
+    "handlebars",
+    "hbs",
+    "html",
+    "html-eex",
+    "heex",
+    "jade",
+    "leaf",
+    "liquid",
+    "markdown",
+    "mdx",
+    "mustache",
+    "njk",
+    "nunjucks",
+    "php",
+    "razor",
+    "slim",
+    "twig",
+    "css",
+    "less",
+    "postcss",
+    "sass",
+    "scss",
+    "stylus",
+    "sugarss",
+    "javascript",
+    "javascriptreact",
+    "reason",
+    "rescript",
+    "typescript",
+    "typescriptreact",
+    "vue",
+    "svelte"
+  },
+  init_options = {
+    userLanguages = {
+      elixir = "html-eex",
+      eruby = "erb",
+      heex = "html-eex",
+      svelte = "html"
+    },
+  },
+  settings = {
+    tailwindCSS = {
+      classAttributes = { "class", "className", "classList", "ngClass" },
+      lint = {
+        cssConflict = "warning",
+        invalidApply = "error",
+        invalidConfigPath = "error",
+        invalidScreen = "error",
+        invalidTailwindDirective = "error",
+        invalidVariant = "error",
+        recommendedVariantOrder = "warning"
+      },
+      validate = true
+    }
+  }
 })
 
 vim.diagnostic.config({
