@@ -219,4 +219,80 @@ require("lazy").setup({
 
   -- Coding Stats
   "wakatime/vim-wakatime",
+
+  -- Easy commenting
+  {
+    'numToStr/Comment.nvim',
+    opts = {
+      -- add any custom configurations here
+    },
+    lazy = false,
+  },
+
+  -- Indent guides
+  {
+    "lukas-reineke/indent-blankline.nvim",
+    main = "ibl",
+    opts = {
+      indent = {
+        char = "│",
+        tab_char = "│",
+      },
+      scope = { enabled = false },
+      exclude = {
+        filetypes = {
+          "help",
+          "alpha",
+          "dashboard",
+          "neo-tree",
+          "Trouble",
+          "trouble",
+          "lazy",
+          "mason",
+          "notify",
+          "toggleterm",
+          "lazyterm",
+        },
+      },
+    },
+  },
+
+  -- Status line
+  {
+    'nvim-lualine/lualine.nvim',
+    dependencies = { 'nvim-tree/nvim-web-devicons' },
+    config = function()
+      require('lualine').setup({
+        options = {
+          theme = 'kanagawa',
+          component_separators = '|',
+          section_separators = { left = '', right = '' },
+        },
+        sections = {
+          lualine_a = {{'mode', separator = { left = '' }, right_padding = 2}},
+          lualine_b = {'filename', 'branch'},
+          lualine_c = {'fileformat'},
+          lualine_x = {'encoding', 'filetype'},
+          lualine_y = {'progress'},
+          lualine_z = {{'location', separator = { right = '' }, left_padding = 2}},
+        },
+      })
+    end
+  },
+
+  -- Keybinding helper
+  {
+    "folke/which-key.nvim",
+    event = "VeryLazy",
+    init = function()
+      vim.o.timeout = true
+      vim.o.timeoutlen = 300
+    end,
+    opts = {
+      -- your configuration comes here
+      -- or leave it empty to use the default settings
+    }
+  },
+
+
 })

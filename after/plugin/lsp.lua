@@ -109,6 +109,13 @@ lspconfig.marksman.setup({
 lspconfig.tailwindcss.setup({
   on_attach = lsp_attach,
   capabilities = lsp_capabilities,
+  root_dir = function(fname)
+    return require("lspconfig").util.root_pattern(
+      'assets/tailwind.config.js',
+      'tailwind.config.js',
+      'postcss.config.js'
+    )(fname)
+  end,
   filetypes = { 
     "aspnetcorerazor", 
     "astro",

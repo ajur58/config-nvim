@@ -48,3 +48,11 @@ vim.keymap.set("n", "<leader>j", "<cmd>lprev<CR>zz")
 -- Scroll half page and move to middle
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
 vim.keymap.set("n", "<C-u>", "<C-u>zz")
+
+
+-- Comment.nvim keymaps (though it works automatically with gcc and gc)
+vim.keymap.set('n', '<leader>/', function()
+    require("Comment.api").toggle.linewise.current()
+end)
+vim.keymap.set('v', '<leader>/', '<ESC><cmd>lua require("Comment.api").toggle.linewise(vim.fn.visualmode())<CR>')
+
