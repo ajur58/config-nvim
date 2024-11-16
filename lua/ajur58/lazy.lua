@@ -14,7 +14,7 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({
   -- the plugin manager can manage itself
   { "folke/lazy.nvim" },
-  
+
   -- Navigation and utilities
   {
     "theprimeagen/harpoon",
@@ -23,7 +23,7 @@ require("lazy").setup({
     config = function()
       local mark = require("harpoon.mark")
       local ui = require("harpoon.ui")
-      
+
       vim.keymap.set("n", "<leader>a", mark.add_file)
       vim.keymap.set("n", "<C-e>", ui.toggle_quick_menu)
       vim.keymap.set("n", "<C-f>", function() ui.nav_file(1) end)
@@ -32,21 +32,21 @@ require("lazy").setup({
       vim.keymap.set("n", "<C-n>", function() ui.nav_file(4) end)
     end
   },
-  { 
+  {
     "mbbill/undotree",
     event = "VeryLazy",
     config = function()
       vim.keymap.set("n", "<leader>u", vim.cmd.UndotreeToggle)
     end
   },
-  { 
+  {
     "tpope/vim-fugitive",
     event = "VeryLazy",
     config = function()
       vim.keymap.set("n", "<leader>gs", vim.cmd.Git)
     end
   },
-  
+
   -- Treesitter for syntax highlighting
   {
     "nvim-treesitter/nvim-treesitter",
@@ -84,34 +84,34 @@ require("lazy").setup({
     },
     config = function()
       local function open_nvim_tree(data)
-          -- buffer is a [No Name]
-          local no_name = data.file == "" and vim.bo[data.buf].buftype == ""
+        -- buffer is a [No Name]
+        local no_name = data.file == "" and vim.bo[data.buf].buftype == ""
 
-          -- buffer is a directory
-          local directory = vim.fn.isdirectory(data.file) == 1
+        -- buffer is a directory
+        local directory = vim.fn.isdirectory(data.file) == 1
 
-          if not no_name and not directory then
-              return
-          end
+        if not no_name and not directory then
+          return
+        end
 
-          -- change to the directory
-          if directory then
-              vim.cmd.cd(data.file)
-          end
+        -- change to the directory
+        if directory then
+          vim.cmd.cd(data.file)
+        end
 
-          -- open the tree
-          require("nvim-tree.api").tree.open()
+        -- open the tree
+        require("nvim-tree.api").tree.open()
       end
 
       require("nvim-tree").setup({
-          view = {
-              width = 35,
-          },
-          update_focused_file = {
-              enable = true,
-              update_root = false,
-              ignore_list = {},
-          },
+        view = {
+          width = 35,
+        },
+        update_focused_file = {
+          enable = true,
+          update_root = false,
+          ignore_list = {},
+        },
       })
       -- Open Tree when opening a folder
       vim.api.nvim_create_autocmd({ "VimEnter" }, { callback = open_nvim_tree })
@@ -133,7 +133,7 @@ require("lazy").setup({
       { "<leader>fh", desc = "Help Tags" },
       { "<leader>fp", desc = "Grep Prompt" },
     },
-    dependencies = { 
+    dependencies = {
       "nvim-lua/plenary.nvim",
     },
     config = function()
@@ -150,8 +150,8 @@ require("lazy").setup({
 
       require("telescope").setup({
         defaults = {
-          file_ignore_patterns = { 
-            "node_modules", 
+          file_ignore_patterns = {
+            "node_modules",
             ".git/",
             "target/",
             "build/",
@@ -235,8 +235,8 @@ require("lazy").setup({
     main = "ibl",
     opts = {
       indent = {
-        char = "│",
-        tab_char = "│",
+        char = " ",
+        tab_char = " ",
       },
       scope = { enabled = false },
       exclude = {
@@ -269,12 +269,12 @@ require("lazy").setup({
           section_separators = { left = '', right = '' },
         },
         sections = {
-          lualine_a = {{'mode', separator = { left = '' }, right_padding = 2}},
-          lualine_b = {'filename', 'branch'},
-          lualine_c = {'fileformat'},
-          lualine_x = {'encoding', 'filetype'},
-          lualine_y = {'progress'},
-          lualine_z = {{'location', separator = { right = '' }, left_padding = 2}},
+          lualine_a = { { 'mode', separator = { left = '' }, right_padding = 2 } },
+          lualine_b = { 'filename', 'branch' },
+          lualine_c = { 'fileformat' },
+          lualine_x = { 'encoding', 'filetype' },
+          lualine_y = { 'progress' },
+          lualine_z = { { 'location', separator = { right = '' }, left_padding = 2 } },
         },
       })
     end
