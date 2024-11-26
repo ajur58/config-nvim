@@ -15,7 +15,8 @@ require('mason-lspconfig').setup({
     'rust_analyzer',
     'marksman',
     'html',
-    'tailwindcss'
+    'tailwindcss',
+    'ts_ls',
   },
   automatic_installation = true,
 })
@@ -81,6 +82,30 @@ require('mason-lspconfig').setup_handlers({
 })
 
 -- Fix Undefined global 'vim'
+-- TypeScript LSP configuration
+lspconfig.ts_ls.setup({
+  on_attach = lsp_attach,
+  capabilities = lsp_capabilities,
+  settings = {
+    typescript = {
+      suggest = {
+        autoImports = true,
+      },
+      preferences = {
+        importModuleSpecifier = "non-relative",
+      },
+    },
+    javascript = {
+      suggest = {
+        autoImports = true,
+      },
+      preferences = {
+        importModuleSpecifier = "non-relative",
+      },
+    },
+  },
+})
+
 lspconfig.lua_ls.setup({
   on_attach = lsp_attach,
   capabilities = lsp_capabilities,
@@ -116,8 +141,8 @@ lspconfig.tailwindcss.setup({
       'postcss.config.js'
     )(fname)
   end,
-  filetypes = { 
-    "aspnetcorerazor", 
+  filetypes = {
+    "aspnetcorerazor",
     "astro",
     "astro-markdown",
     "blade",
@@ -187,6 +212,14 @@ lspconfig.tailwindcss.setup({
       validate = true
     }
   }
+})
+
+-- Format on save for JavaScript and TypeScript files
+vim.api.nvim_create_autocmd("BufWritePre", {
+  pattern = { "*.js", "*.jsx", "*.ts", "*.tsx" },
+  callback = function()
+    vim.lsp.buf.format({ async = false })
+  end,
 })
 
 vim.diagnostic.config({

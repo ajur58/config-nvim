@@ -51,6 +51,9 @@ require("lazy").setup({
   {
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
+    dependencies = {
+      "windwp/nvim-ts-autotag",
+    },
     config = function()
       require('nvim-treesitter.configs').setup({
         ensure_installed = {
@@ -72,7 +75,13 @@ require("lazy").setup({
         indent = {
           enable = true
         },
+        autotag = {
+          enable = true,
+        },
       })
+      
+      -- Setup autoclose tag
+      require('nvim-ts-autotag').setup()
     end
   },
 
