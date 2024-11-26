@@ -74,12 +74,9 @@ require("lazy").setup({
         },
         indent = {
           enable = true
-        },
-        autotag = {
-          enable = true,
-        },
+        }
       })
-      
+
       -- Setup autoclose tag
       require('nvim-ts-autotag').setup()
     end
