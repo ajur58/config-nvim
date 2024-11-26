@@ -204,6 +204,7 @@ require("lazy").setup({
       "williamboman/mason.nvim",
       "williamboman/mason-lspconfig.nvim",
       "folke/neodev.nvim",
+      "jose-elias-alvarez/null-ls.nvim",
     },
     config = function()
       require("neodev").setup()

@@ -16,6 +16,7 @@ require('mason-lspconfig').setup({
     'marksman',
     'html',
     'tailwindcss',
+    'ts_ls',
   },
   automatic_installation = true,
 })
@@ -189,6 +190,22 @@ lspconfig.tailwindcss.setup({
   }
 })
 
+-- Format on save for specific filetypes
+vim.api.nvim_create_autocmd("BufWritePre", {
+  pattern = { "*.ts", "*.tsx", "*.js", "*.jsx" },
+  callback = function()
+    vim.lsp.buf.format({ async = false })
+  end,
+})
+
 vim.diagnostic.config({
   virtual_text = true
+})
+
+-- TypeScript LSP setup
+lspconfig.ts_ls.setup({
+  on_attach = lsp_attach,
+  capabilities = lsp_capabilities,
+  filetypes = { "typescript", "typescriptreact", "typescript.tsx", "javascript", "javascriptreact" },
+  cmd = { "typescript-language-server", "--stdio" },
 })
