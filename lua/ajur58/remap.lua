@@ -1,4 +1,3 @@
-
 -- Open Nvim Tree Explorer
 vim.keymap.set("n", "<leader>mc", ":NvimTreeToggle<cr>")
 
@@ -52,7 +51,8 @@ vim.keymap.set("n", "<C-u>", "<C-u>zz")
 
 -- Comment.nvim keymaps (though it works automatically with gcc and gc)
 vim.keymap.set('n', '<leader>/', function()
-    require("Comment.api").toggle.linewise.current()
+  require("Comment.api").toggle.linewise.current()
 end)
 vim.keymap.set('v', '<leader>/', '<ESC><cmd>lua require("Comment.api").toggle.linewise(vim.fn.visualmode())<CR>')
 
+vim.keymap.set('n', '<leader><leader>', '<C-^>', { desc = "Switch to the last file" })
