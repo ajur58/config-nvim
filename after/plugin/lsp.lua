@@ -192,9 +192,18 @@ lspconfig.tailwindcss.setup({
 
 -- Format on save for specific filetypes
 vim.api.nvim_create_autocmd("BufWritePre", {
-  pattern = { "*.ts", "*.tsx", "*.js", "*.jsx" },
+  pattern = { "*.ts", "*.tsx", "*.js", "*.jsx", "*.ex", "*.exs", "*.heex" },
   callback = function()
     vim.lsp.buf.format({ async = false })
+  end,
+})
+
+-- Configure formatting options for specific languages
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "javascript", "typescript", "javascriptreact", "typescriptreact", "elixir" },
+  callback = function()
+    vim.opt_local.textwidth = 80            -- Set maximum line length
+    vim.opt_local.formatoptions:append("t") -- Auto-wrap text using textwidth
   end,
 })
 
