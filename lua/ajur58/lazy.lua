@@ -224,9 +224,6 @@ require("lazy").setup({
     },
   },
 
-  -- Coding Stats
-  "wakatime/vim-wakatime",
-
   -- Easy commenting
   {
     'numToStr/Comment.nvim',
@@ -300,6 +297,7 @@ require("lazy").setup({
       -- or leave it empty to use the default settings
     }
   },
+  { "christoomey/vim-tmux-navigator" }
 
 
 })
