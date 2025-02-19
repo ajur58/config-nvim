@@ -55,7 +55,8 @@ require("lazy").setup({
       "windwp/nvim-ts-autotag",
     },
     config = function()
-      require('nvim-treesitter.configs').setup({
+      local treesitter_config = require('nvim-treesitter.configs')
+      treesitter_config.setup({
         ensure_installed = {
           "lua",
           "vim",
@@ -74,16 +75,16 @@ require("lazy").setup({
         },
         indent = {
           enable = true
-        },
-        autotag = {
-          enable = true,
-          filetypes = {
-            'html', 'javascript', 'typescript', 'javascriptreact', 'typescriptreact', 'tsx', 'jsx',
-            'svelte', 'vue', 'rescript', 'xml', 'php', 'markdown', 'astro', 'glimmer', 'handlebars', 'hbs',
-            'heex', 'elixir', 'eex'  -- Added Elixir-related filetypes
-          }
         }
       })
+
+      -- Separate autotag setup
+      require('nvim-treesitter.configs').setup({
+        autotag = {
+          enable = true
+        }
+      })
+      require('nvim-ts-autotag').setup()
     end
   },
 
