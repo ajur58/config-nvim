@@ -74,11 +74,16 @@ require("lazy").setup({
         },
         indent = {
           enable = true
+        },
+        autotag = {
+          enable = true,
+          filetypes = {
+            'html', 'javascript', 'typescript', 'javascriptreact', 'typescriptreact', 'tsx', 'jsx',
+            'svelte', 'vue', 'rescript', 'xml', 'php', 'markdown', 'astro', 'glimmer', 'handlebars', 'hbs',
+            'heex', 'elixir', 'eex'  -- Added Elixir-related filetypes
+          }
         }
       })
-
-      -- Setup autoclose tag
-      require('nvim-ts-autotag').setup()
     end
   },
 

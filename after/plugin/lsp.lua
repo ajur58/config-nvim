@@ -201,12 +201,16 @@ vim.api.nvim_create_autocmd("BufWritePre", {
   end,
 })
 
--- Configure formatting options for specific languages
-vim.api.nvim_create_autocmd("FileType", {
-  pattern = { "javascript", "typescript", "javascriptreact", "typescriptreact", "elixir" },
+-- Better paste handling for TS/JS files
+vim.keymap.set('i', '<D-v>', function()
+  vim.opt.paste = true
+  return '<D-v>'
+end, { expr = true })
+
+vim.api.nvim_create_autocmd("TextChangedI", {
+  pattern = { "*.tsx", "*.ts", "*.jsx", "*.js" },
   callback = function()
-    vim.opt_local.textwidth = 80            -- Set maximum line length
-    vim.opt_local.formatoptions:append("t") -- Auto-wrap text using textwidth
+    vim.opt.paste = false
   end,
 })
 
