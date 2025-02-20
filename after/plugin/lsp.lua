@@ -201,17 +201,24 @@ vim.api.nvim_create_autocmd("BufWritePre", {
   end,
 })
 
--- Better paste handling for TS/JS files
-vim.keymap.set('i', '<D-v>', function()
-  vim.opt.paste = true
-  return '<D-v>'
-end, { expr = true })
-
-vim.api.nvim_create_autocmd("TextChangedI", {
-  pattern = { "*.tsx", "*.ts", "*.jsx", "*.js" },
+-- Disable all formatting and indentation features
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "typescript", "javascript", "typescriptreact", "javascriptreact" },
   callback = function()
-    vim.opt.paste = false
+    vim.opt_local.formatoptions = ''
+    vim.opt_local.indentexpr = ''
+    vim.opt_local.autoindent = false
+    vim.opt_local.smartindent = false
+    vim.opt_local.cindent = false
+    vim.b.ts_autotag_enabled = false
+    vim.opt_local.paste = true
   end,
+})
+
+-- Disable format on save for TS/JS files
+vim.api.nvim_create_autocmd("BufWritePre", {
+  pattern = { "*.ts", "*.tsx", "*.js", "*.jsx" },
+  callback = function() return end
 })
 
 vim.diagnostic.config({

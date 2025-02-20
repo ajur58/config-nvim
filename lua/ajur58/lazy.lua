@@ -74,17 +74,16 @@ require("lazy").setup({
           enable = true,
         },
         indent = {
-          enable = true
+          enable = false  -- Disable treesitter indentation
         }
       })
 
-      -- Separate autotag setup
+      -- Disable autotag
       require('nvim-treesitter.configs').setup({
         autotag = {
-          enable = true
+          enable = false
         }
       })
-      require('nvim-ts-autotag').setup()
     end
   },
 
