@@ -6,14 +6,9 @@ vim.opt.softtabstop = 2
 vim.opt.shiftwidth = 2
 vim.opt.expandtab = true
 
-vim.opt.smartindent = false
-vim.opt.autoindent = false
+vim.opt.smartindent = true
+vim.opt.autoindent = true
 vim.opt.wrap = false
-vim.opt.formatoptions = ''
-vim.opt.indentexpr = ''
-vim.opt.cindent = false
-vim.opt.paste = true
-vim.g.ts_autotag_enabled = false
 
 vim.opt.swapfile = false
 vim.opt.backup = false

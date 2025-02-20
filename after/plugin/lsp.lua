@@ -201,25 +201,25 @@ vim.api.nvim_create_autocmd("BufWritePre", {
   end,
 })
 
--- Disable all formatting and indentation features
-vim.api.nvim_create_autocmd("FileType", {
-  pattern = { "typescript", "javascript", "typescriptreact", "javascriptreact" },
-  callback = function()
-    vim.opt_local.formatoptions = ''
-    vim.opt_local.indentexpr = ''
-    vim.opt_local.autoindent = false
-    vim.opt_local.smartindent = false
-    vim.opt_local.cindent = false
-    vim.b.ts_autotag_enabled = false
-    vim.opt_local.paste = true
-  end,
-})
-
--- Disable format on save for TS/JS files
-vim.api.nvim_create_autocmd("BufWritePre", {
-  pattern = { "*.ts", "*.tsx", "*.js", "*.jsx" },
-  callback = function() return end
-})
+-- Special paste mode handler
+vim.keymap.set('n', '<leader>p', function()
+  -- Enter paste mode
+  local old_paste = vim.opt.paste:get()
+  local old_ai = vim.opt.autoindent:get()
+  local old_si = vim.opt.smartindent:get()
+  
+  vim.opt.paste = true
+  vim.opt.autoindent = false
+  vim.opt.smartindent = false
+  
+  -- Wait for paste
+  vim.cmd('normal! "+p')
+  
+  -- Restore previous settings
+  vim.opt.paste = old_paste
+  vim.opt.autoindent = old_ai
+  vim.opt.smartindent = old_si
+end, { noremap = true, desc = "Paste without formatting" })
 
 vim.diagnostic.config({
   virtual_text = true
