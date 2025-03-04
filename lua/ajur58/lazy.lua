@@ -298,7 +298,8 @@ require("lazy").setup({
       -- or leave it empty to use the default settings
     }
   },
-  { "christoomey/vim-tmux-navigator" }
+  { "christoomey/vim-tmux-navigator" },
+  { "WhoIsSethDaniel/mason-tool-installer.nvim" }
 
 
 })

@@ -20,9 +20,17 @@ require('mason-lspconfig').setup({
     'cssls',
     'eslint',
     'jsonls',
-    'prettierd'
   },
   automatic_installation = true,
+})
+
+require("mason-tool-installer").setup({
+  ensure_installed = {
+    "prettierd",
+    "eslint_d",
+    "stylua",
+  },
+  auto_update = true, -- Auto-update installed tools
 })
 
 local cmp = require('cmp')
