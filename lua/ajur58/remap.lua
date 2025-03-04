@@ -63,3 +63,23 @@ vim.api.nvim_set_keymap("n", "<C-h>", ":TmuxNavigateLeft<CR>", { silent = true }
 vim.api.nvim_set_keymap("n", "<C-j>", ":TmuxNavigateDown<CR>", { silent = true })
 vim.api.nvim_set_keymap("n", "<C-k>", ":TmuxNavigateUp<CR>", { silent = true })
 vim.api.nvim_set_keymap("n", "<C-l>", ":TmuxNavigateRight<CR>", { silent = true })
+
+-- Special paste mode handler
+vim.keymap.set('n', '<leader>p', function()
+  -- Enter paste mode
+  local old_paste = vim.opt.paste:get()
+  local old_ai = vim.opt.autoindent:get()
+  local old_si = vim.opt.smartindent:get()
+
+  vim.opt.paste = true
+  vim.opt.autoindent = false
+  vim.opt.smartindent = false
+
+  -- Wait for paste
+  vim.cmd('normal! "+p')
+
+  -- Restore previous settings
+  vim.opt.paste = old_paste
+  vim.opt.autoindent = old_ai
+  vim.opt.smartindent = old_si
+end, { noremap = true, desc = "Paste without formatting" })

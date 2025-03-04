@@ -20,6 +20,7 @@ require('mason-lspconfig').setup({
     'cssls',
     'eslint',
     'jsonls',
+    'prettierd'
   },
   automatic_installation = true,
 })
@@ -193,34 +194,6 @@ lspconfig.tailwindcss.setup({
   }
 })
 
--- Format on save for specific filetypes
-vim.api.nvim_create_autocmd("BufWritePre", {
-  pattern = { "*.ts", "*.tsx", "*.js", "*.jsx", "*.ex", "*.exs", "*.heex" },
-  callback = function()
-    vim.lsp.buf.format({ async = false })
-  end,
-})
-
--- Special paste mode handler
-vim.keymap.set('n', '<leader>p', function()
-  -- Enter paste mode
-  local old_paste = vim.opt.paste:get()
-  local old_ai = vim.opt.autoindent:get()
-  local old_si = vim.opt.smartindent:get()
-  
-  vim.opt.paste = true
-  vim.opt.autoindent = false
-  vim.opt.smartindent = false
-  
-  -- Wait for paste
-  vim.cmd('normal! "+p')
-  
-  -- Restore previous settings
-  vim.opt.paste = old_paste
-  vim.opt.autoindent = old_ai
-  vim.opt.smartindent = old_si
-end, { noremap = true, desc = "Paste without formatting" })
-
 vim.diagnostic.config({
   virtual_text = true
 })
@@ -231,4 +204,40 @@ lspconfig.ts_ls.setup({
   capabilities = lsp_capabilities,
   filetypes = { "typescript", "typescriptreact", "typescript.tsx", "javascript", "javascriptreact" },
   cmd = { "typescript-language-server", "--stdio" },
+})
+
+local null_ls = require("null-ls")
+
+null_ls.setup({
+  sources = {
+    null_ls.builtins.formatting.prettierd, -- Use Prettier for JS/TS/JSON/CSS/HTML/Markdown/YAML
+    null_ls.builtins.formatting.mix,       -- Use mix for Elixir
+  },
+})
+
+vim.api.nvim_create_autocmd("BufWritePre", {
+  pattern = { "*.ex", "*.exs", "*.heex", "*.js", "*.ts", "*.tsx", "*.json", "*.css", "*.html", "*.md", "*.yaml" },
+  callback = function()
+    vim.lsp.buf.format({
+      async = true,
+      filter = function(client)
+        local filetype = vim.bo.filetype
+
+        -- Prettier for JS, TS, JSON, etc.
+        local prettier_filetypes = { "javascript", "typescript", "typescriptreact", "json", "css", "html", "markdown",
+          "yaml" }
+        if vim.tbl_contains(prettier_filetypes, filetype) then
+          return client.name == "null-ls" -- Ensures Prettier from null-ls is used
+        end
+
+        -- ElixirLS for Elixir files
+        if filetype == "elixir" then
+          return client.name == "elixirls"
+        end
+
+        -- Fallback to any available LSP formatter (e.g., Lua)
+        return true
+      end,
+    })
+  end,
 })
