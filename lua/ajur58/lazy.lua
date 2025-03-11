@@ -299,7 +299,62 @@ require("lazy").setup({
     }
   },
   { "christoomey/vim-tmux-navigator" },
-  { "WhoIsSethDaniel/mason-tool-installer.nvim" }
+  { "WhoIsSethDaniel/mason-tool-installer.nvim" },
 
+  -- Git signs in the gutter (minimal config)
+  {
+    "lewis6991/gitsigns.nvim",
+    event = "BufReadPre",
+    config = true, -- Use default configuration
+  },
+
+  -- GitHub Copilot
+  {
+    "zbirenbaum/copilot.lua",
+    cmd = "Copilot",
+    event = "InsertEnter",
+    config = function()
+      require("copilot").setup({
+        suggestion = {
+          enabled = true,
+          auto_trigger = true,
+          keymap = {
+            accept = "<Tab>", -- Tab to accept
+            next = "<C-n>",   -- Ctrl+n to see next suggestion
+            prev = "<C-p>",   -- Ctrl+p to see previous suggestion
+            dismiss = "<C-e>" -- Ctrl+e to dismiss
+          },
+        },
+        filetypes = {
+          markdown = true,
+          help = true,
+          gitcommit = true,
+          ["."] = true,
+        },
+      })
+    end,
+  },
+
+  -- GitHub Copilot Chat
+  {
+    "CopilotC-Nvim/CopilotChat.nvim",
+    branch = "main",
+    dependencies = {
+      { "zbirenbaum/copilot.lua" },
+      { "nvim-lua/plenary.nvim" },
+    },
+    opts = {
+      debug = false,
+      prompts = {
+        Explain = "Explain how this code works:",
+        Review = "Review this code and make suggestions for improvement:",
+        Tests = "Suggest unit tests for this code:",
+        Refactor = "Suggest a refactoring for this code:",
+      },
+    },
+    build = function()
+      vim.notify("Please install 'CopilotChat.nvim' dependencies by running ':CopilotChatInstall'")
+    end,
+  }
 
 })

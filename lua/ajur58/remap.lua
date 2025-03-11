@@ -64,6 +64,12 @@ vim.api.nvim_set_keymap("n", "<C-j>", ":TmuxNavigateDown<CR>", { silent = true }
 vim.api.nvim_set_keymap("n", "<C-k>", ":TmuxNavigateUp<CR>", { silent = true })
 vim.api.nvim_set_keymap("n", "<C-l>", ":TmuxNavigateRight<CR>", { silent = true })
 
+-- Copilot Chat keybindings
+vim.keymap.set('v', '<leader>ce', ':CopilotChatExplain<CR>', { desc = "Copilot explain code" })
+vim.keymap.set('v', '<leader>cr', ':CopilotChatReview<CR>', { desc = "Copilot review code" })
+vim.keymap.set('v', '<leader>ct', ':CopilotChatTests<CR>', { desc = "Copilot suggest tests" })
+vim.keymap.set('v', '<leader>cf', ':CopilotChatRefactor<CR>', { desc = "Copilot suggest refactor" })
+
 -- Special paste mode handler
 vim.keymap.set('n', '<leader>p', function()
   -- Enter paste mode
@@ -83,3 +89,4 @@ vim.keymap.set('n', '<leader>p', function()
   vim.opt.autoindent = old_ai
   vim.opt.smartindent = old_si
 end, { noremap = true, desc = "Paste without formatting" })
+
