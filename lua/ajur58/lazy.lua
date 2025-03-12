@@ -121,7 +121,7 @@ require("lazy").setup({
         },
       })
       -- Open Tree when opening a folder
-      vim.api.nvim_create_autocmd({ "VimEnter" }, { callback = open_nvim_tree })
+      -- vim.api.nvim_create_autocmd({ "VimEnter" }, { callback = open_nvim_tree })
     end
   },
 
@@ -186,7 +186,7 @@ require("lazy").setup({
     "rebelot/kanagawa.nvim",
     config = function()
       function ColorMyPencils(color)
-        color = color or "kanagawa"
+        color = color or "kanagawa-dragon"
         vim.cmd.colorscheme(color)
 
         vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
@@ -319,10 +319,10 @@ require("lazy").setup({
           enabled = true,
           auto_trigger = true,
           keymap = {
-            accept = "<Tab>", -- Tab to accept
-            next = "<C-n>",   -- Ctrl+n to see next suggestion
-            prev = "<C-p>",   -- Ctrl+p to see previous suggestion
-            dismiss = "<C-e>" -- Ctrl+e to dismiss
+            accept = "<S-Tab>", -- Tab to accept
+            next = "<C-n>",     -- Ctrl+n to see next suggestion
+            prev = "<C-p>",     -- Ctrl+p to see previous suggestion
+            dismiss = "<C-e>"   -- Ctrl+e to dismiss
           },
         },
         filetypes = {
@@ -355,6 +355,22 @@ require("lazy").setup({
     build = function()
       vim.notify("Please install 'CopilotChat.nvim' dependencies by running ':CopilotChatInstall'")
     end,
+  },
+  {
+    "folke/trouble.nvim",
+    config = function()
+      require("trouble").setup({
+        auto_open = false, -- Do not open automatically
+        auto_close = true, -- Auto-close when no items
+        use_diagnostic_signs = true
+      })
+
+      -- Keymaps
+      vim.keymap.set("n", "<leader>xx", function() require("trouble").toggle("diagnostics") end,
+        { silent = true, noremap = true, desc = "Toggle Trouble" })
+      vim.keymap.set("n", "<leader>xq", function() require("trouble").toggle("quickfix") end,
+        { silent = true, noremap = true, desc = "Toggle Quickfix" })
+    end
   }
 
 })

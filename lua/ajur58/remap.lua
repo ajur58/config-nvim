@@ -28,9 +28,6 @@ vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 -- When joining two lines, it keeps the cursor at the beginning of the line
 vim.keymap.set("n", "J", "mzJ`z")
 
--- greatest remap ever, for copy-pasting over highlighted text and keeping buffer
-vim.keymap.set("x", "<leader>p", [["_dP]])
-
 -- next greatest remap ever: copy into real clipboard
 vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]])
 vim.keymap.set("n", "<leader>Y", [["+Y]])
@@ -69,6 +66,17 @@ vim.keymap.set('v', '<leader>ce', ':CopilotChatExplain<CR>', { desc = "Copilot e
 vim.keymap.set('v', '<leader>cr', ':CopilotChatReview<CR>', { desc = "Copilot review code" })
 vim.keymap.set('v', '<leader>ct', ':CopilotChatTests<CR>', { desc = "Copilot suggest tests" })
 vim.keymap.set('v', '<leader>cf', ':CopilotChatRefactor<CR>', { desc = "Copilot suggest refactor" })
+vim.keymap.set('v', '<leader>cq', function()
+  local question = vim.fn.input("Ask Copilot: ")
+  if question ~= "" then
+    vim.cmd("CopilotChat " .. question)
+  end
+end, { desc = "Ask Copilot a custom question" })
+
+-- greatest remap ever, for copy-pasting over highlighted text and keeping buffer
+-- DOES THIS CLASH WITH THE NEXT? Probably not as it's different modes.
+vim.keymap.set("x", "<leader>p", [["_dP]])
+
 
 -- Special paste mode handler
 vim.keymap.set('n', '<leader>p', function()
@@ -89,4 +97,3 @@ vim.keymap.set('n', '<leader>p', function()
   vim.opt.autoindent = old_ai
   vim.opt.smartindent = old_si
 end, { noremap = true, desc = "Paste without formatting" })
-
