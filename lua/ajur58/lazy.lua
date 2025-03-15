@@ -154,6 +154,9 @@ require("lazy").setup({
       vim.keymap.set('n', '<leader>fp', function()
         builtin.grep_string({ search = vim.fn.input("Grep > ") })
       end)
+      vim.keymap.set("n", "<leader>fr", function()
+        require("telescope.builtin").resume()
+      end, { noremap = true, silent = true, desc = "Resume Last Telescope Search" })
 
       require("telescope").setup({
         defaults = {
@@ -186,7 +189,7 @@ require("lazy").setup({
     "rebelot/kanagawa.nvim",
     config = function()
       function ColorMyPencils(color)
-        color = color or "kanagawa-dragon"
+        color = "kanagawa-dragon"
         vim.cmd.colorscheme(color)
 
         vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
@@ -370,6 +373,40 @@ require("lazy").setup({
         { silent = true, noremap = true, desc = "Toggle Trouble" })
       vim.keymap.set("n", "<leader>xq", function() require("trouble").toggle("quickfix") end,
         { silent = true, noremap = true, desc = "Toggle Quickfix" })
+    end
+  },
+  {
+    "folke/zen-mode.nvim",
+    config = function()
+      vim.keymap.set("n", "<leader>zz", function()
+        require("zen-mode").setup {
+          window = {
+            width = 90,
+            options = {}
+          },
+        }
+        require("zen-mode").toggle()
+        vim.wo.wrap = false
+        vim.wo.number = true
+        vim.wo.rnu = true
+        ColorMyPencils()
+      end)
+
+
+      vim.keymap.set("n", "<leader>zZ", function()
+        require("zen-mode").setup {
+          window = {
+            width = 80,
+            options = {}
+          },
+        }
+        require("zen-mode").toggle()
+        vim.wo.wrap = false
+        vim.wo.number = false
+        vim.wo.rnu = false
+        vim.opt.colorcolumn = "0"
+        ColorMyPencils()
+      end)
     end
   }
 
