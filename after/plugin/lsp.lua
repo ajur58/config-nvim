@@ -84,13 +84,15 @@ local lsp_attach = function(client, bufnr)
 end
 
 local lspconfig = require('lspconfig')
-require('mason-lspconfig').setup_handlers({
-  function(server_name)
-    lspconfig[server_name].setup({
-      on_attach = lsp_attach,
-      capabilities = lsp_capabilities,
-    })
-  end,
+require('mason-lspconfig').setup({
+  handlers = {
+    function(server_name)
+      lspconfig[server_name].setup({
+        on_attach = lsp_attach,
+        capabilities = lsp_capabilities,
+      })
+    end,
+  },
 })
 
 -- Fix Undefined global 'vim'
@@ -123,7 +125,7 @@ lspconfig.tailwindcss.setup({
   on_attach = lsp_attach,
   capabilities = lsp_capabilities,
   root_dir = function(fname)
-    return require("lspconfig").util.root_pattern(
+    return require("lspconfig.util").root_pattern(
       'assets/tailwind.config.js',
       'tailwind.config.js',
       'postcss.config.js'

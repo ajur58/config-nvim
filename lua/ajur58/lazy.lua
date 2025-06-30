@@ -185,22 +185,42 @@ require("lazy").setup({
   },
 
   -- Theme
+  -- {
+  --   "rebelot/kanagawa.nvim",
+  --   config = function()
+  --     function ColorMyPencils(color)
+  --       color = "kanagawa-dragon"
+  --       vim.cmd.colorscheme(color)
+  --
+  --       vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
+  --       vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
+  --     end
+  --
+  --     ColorMyPencils()
+  --   end,
+  --   priority = 1000,
+  -- },
+  { "rebelot/kanagawa.nvim", lazy = true },
   {
-    "rebelot/kanagawa.nvim",
+    "projekt0n/github-nvim-theme",
+    lazy = false,
+    priority = 1000,
+    dependencies = {
+      "rebelot/kanagawa.nvim",
+    },
     config = function()
-      function ColorMyPencils(color)
-        color = "kanagawa-dragon"
-        vim.cmd.colorscheme(color)
-
-        vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
-        vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
+      local function set_theme()
+        local appearance = vim.fn.system("defaults read -g AppleInterfaceStyle 2>/dev/null")
+        if appearance:match("Dark") then
+          vim.cmd("colorscheme kanagawa")
+        else
+          vim.cmd("colorscheme github_light")
+        end
       end
 
-      ColorMyPencils()
+      set_theme()
     end,
-    priority = 1000,
   },
-
   -- LSP Support
   {
     "neovim/nvim-lspconfig",
@@ -272,7 +292,7 @@ require("lazy").setup({
     config = function()
       require('lualine').setup({
         options = {
-          theme = 'kanagawa',
+          theme = 'github_light',
           component_separators = '|',
           section_separators = { left = '', right = '' },
         },
