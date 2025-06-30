@@ -200,27 +200,21 @@ require("lazy").setup({
   --   end,
   --   priority = 1000,
   -- },
-  { "rebelot/kanagawa.nvim", lazy = true },
-  {
-    "projekt0n/github-nvim-theme",
-    lazy = false,
-    priority = 1000,
-    dependencies = {
-      "rebelot/kanagawa.nvim",
-    },
-    config = function()
-      local function set_theme()
-        local appearance = vim.fn.system("defaults read -g AppleInterfaceStyle 2>/dev/null")
-        if appearance:match("Dark") then
-          vim.cmd("colorscheme kanagawa")
-        else
-          vim.cmd("colorscheme github_light")
-        end
-      end
+  -- {
+  --   "zenbones-theme/zenbones.nvim",
+  --   -- Optionally install Lush. Allows for more configuration or extending the colorscheme
+  --   -- If you don't want to install lush, make sure to set g:zenbones_compat = 1
+  --   -- In Vim, compat mode is turned on as Lush only works in Neovim.
+  --   dependencies = "rktjmp/lush.nvim",
+  --   lazy = false,
+  --   priority = 1000,
+  --   -- you can set set configuration options here
+  --   -- config = function()
+  --   --     vim.g.zenbones_darken_comments = 45
+  --   --     vim.cmd.colorscheme('zenbones')
+  --   -- end
+  -- },
 
-      set_theme()
-    end,
-  },
   -- LSP Support
   {
     "neovim/nvim-lspconfig",
@@ -292,7 +286,7 @@ require("lazy").setup({
     config = function()
       require('lualine').setup({
         options = {
-          theme = 'github_light',
+          theme = 'zenbones',
           component_separators = '|',
           section_separators = { left = '', right = '' },
         },
