@@ -108,6 +108,13 @@ lspconfig.lua_ls.setup({
   }
 })
 
+-- Explicitly configure ElixirLS to ensure on_attach is called
+lspconfig.elixirls.setup({
+  on_attach = lsp_attach,
+  capabilities = lsp_capabilities,
+  cmd = { "elixir-ls" },
+})
+
 lspconfig.html.setup({
   on_attach = lsp_attach,
   capabilities = lsp_capabilities,
