@@ -247,9 +247,9 @@ vim.api.nvim_create_autocmd("BufWritePre", {
           return client.name == "null-ls" -- Ensures Prettier from null-ls is used
         end
 
-        -- ElixirLS for Elixir files
+        -- Use mix formatter via null-ls for Elixir files
         if filetype == "elixir" then
-          return client.name == "elixirls"
+          return client.name == "null-ls"
         end
 
         -- Fallback to any available LSP formatter (e.g., Lua)
