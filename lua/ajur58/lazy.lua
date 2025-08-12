@@ -20,31 +20,17 @@ require("lazy").setup({
     "theprimeagen/harpoon",
     event = "VeryLazy",
     dependencies = { "nvim-lua/plenary.nvim" },
-    config = function()
-      local mark = require("harpoon.mark")
-      local ui = require("harpoon.ui")
-
-      vim.keymap.set("n", "<leader>a", mark.add_file)
-      vim.keymap.set("n", "<C-e>", ui.toggle_quick_menu)
-      vim.keymap.set("n", "<C-f>", function() ui.nav_file(1) end)
-      vim.keymap.set("n", "<C-s>", function() ui.nav_file(2) end)
-      vim.keymap.set("n", "<C-t>", function() ui.nav_file(3) end)
-      vim.keymap.set("n", "<C-n>", function() ui.nav_file(4) end)
-    end
+    -- Keymaps moved to remap.lua
   },
   {
     "mbbill/undotree",
     event = "VeryLazy",
-    config = function()
-      vim.keymap.set("n", "<leader>u", vim.cmd.UndotreeToggle)
-    end
+    -- Keymaps moved to remap.lua
   },
   {
     "tpope/vim-fugitive",
     event = "VeryLazy",
-    config = function()
-      vim.keymap.set("n", "<leader>gs", vim.cmd.Git)
-    end
+    -- Keymaps moved to remap.lua
   },
 
   -- Treesitter for syntax highlighting
@@ -136,20 +122,7 @@ require("lazy").setup({
       "nvim-lua/plenary.nvim",
     },
     config = function()
-      local builtin = require('telescope.builtin')
-      vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
-      vim.keymap.set('n', '<leader>fg', builtin.git_files, {})
-      vim.keymap.set('n', '<leader>fl', builtin.live_grep, {})
-      vim.keymap.set('n', '<leader>fs', builtin.grep_string, {})
-      vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
-      vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
-      vim.keymap.set('n', '<leader>fp', function()
-        builtin.grep_string({ search = vim.fn.input("Grep > ") })
-      end)
-      vim.keymap.set("n", "<leader>fr", function()
-        require("telescope.builtin").resume()
-      end, { noremap = true, silent = true, desc = "Resume Last Telescope Search" })
-
+      -- Keymaps moved to remap.lua
       require("telescope").setup({
         defaults = {
           file_ignore_patterns = {
@@ -373,46 +346,12 @@ require("lazy").setup({
         use_diagnostic_signs = true
       })
 
-      -- Keymaps
-      vim.keymap.set("n", "<leader>xx", function() require("trouble").toggle("diagnostics") end,
-        { silent = true, noremap = true, desc = "Toggle Trouble" })
-      vim.keymap.set("n", "<leader>xq", function() require("trouble").toggle("quickfix") end,
-        { silent = true, noremap = true, desc = "Toggle Quickfix" })
+      -- Keymaps moved to remap.lua
     end
   },
   {
     "folke/zen-mode.nvim",
-    config = function()
-      vim.keymap.set("n", "<leader>zz", function()
-        require("zen-mode").setup {
-          window = {
-            width = 90,
-            options = {}
-          },
-        }
-        require("zen-mode").toggle()
-        vim.wo.wrap = false
-        vim.wo.number = true
-        vim.wo.rnu = true
-        ColorMyPencils()
-      end)
-
-
-      vim.keymap.set("n", "<leader>zZ", function()
-        require("zen-mode").setup {
-          window = {
-            width = 80,
-            options = {}
-          },
-        }
-        require("zen-mode").toggle()
-        vim.wo.wrap = false
-        vim.wo.number = false
-        vim.wo.rnu = false
-        vim.opt.colorcolumn = "0"
-        ColorMyPencils()
-      end)
-    end
+    -- Keymaps moved to remap.lua
   }
 
 })

@@ -56,10 +56,10 @@ vim.keymap.set('n', '<leader><leader>', '<C-^>', { desc = "Switch to the last fi
 
 -- TMUX remaps
 vim.g.tmux_navigator_no_mappings = 1
-vim.api.nvim_set_keymap("n", "<C-h>", ":TmuxNavigateLeft<CR>", { silent = true })
-vim.api.nvim_set_keymap("n", "<C-j>", ":TmuxNavigateDown<CR>", { silent = true })
-vim.api.nvim_set_keymap("n", "<C-k>", ":TmuxNavigateUp<CR>", { silent = true })
-vim.api.nvim_set_keymap("n", "<C-l>", ":TmuxNavigateRight<CR>", { silent = true })
+vim.keymap.set("n", "<C-h>", ":TmuxNavigateLeft<CR>", { silent = true, desc = "TMUX navigate left" })
+vim.keymap.set("n", "<C-j>", ":TmuxNavigateDown<CR>", { silent = true, desc = "TMUX navigate down" })
+vim.keymap.set("n", "<C-k>", ":TmuxNavigateUp<CR>", { silent = true, desc = "TMUX navigate up" })
+vim.keymap.set("n", "<C-l>", ":TmuxNavigateRight<CR>", { silent = true, desc = "TMUX navigate right" })
 
 -- Copilot Chat keybindings
 vim.keymap.set('v', '<leader>ce', ':CopilotChatExplain<CR>', { desc = "Copilot explain code" })
@@ -97,6 +97,88 @@ vim.keymap.set('n', '<leader>p', function()
   vim.opt.autoindent = old_ai
   vim.opt.smartindent = old_si
 end, { noremap = true, desc = "Paste without formatting" })
+
+-- =====================
+-- PLUGIN KEYMAPS
+-- =====================
+
+-- Harpoon
+vim.keymap.set("n", "<leader>a", function() require("harpoon.mark").add_file() end, { desc = "Harpoon add file" })
+vim.keymap.set("n", "<C-e>", function() require("harpoon.ui").toggle_quick_menu() end, { desc = "Harpoon quick menu" })
+vim.keymap.set("n", "<C-f>", function() require("harpoon.ui").nav_file(1) end, { desc = "Harpoon nav file 1" })
+vim.keymap.set("n", "<C-s>", function() require("harpoon.ui").nav_file(2) end, { desc = "Harpoon nav file 2" })
+vim.keymap.set("n", "<C-t>", function() require("harpoon.ui").nav_file(3) end, { desc = "Harpoon nav file 3" })
+vim.keymap.set("n", "<C-n>", function() require("harpoon.ui").nav_file(4) end, { desc = "Harpoon nav file 4" })
+
+-- Undotree
+vim.keymap.set("n", "<leader>u", vim.cmd.UndotreeToggle, { desc = "Toggle undotree" })
+
+-- Fugitive
+vim.keymap.set("n", "<leader>gs", vim.cmd.Git, { desc = "Git status" })
+
+-- Telescope
+vim.keymap.set('n', '<leader>ff', function() require('telescope.builtin').find_files() end, { desc = "Find files" })
+vim.keymap.set('n', '<leader>fg', function() require('telescope.builtin').git_files() end, { desc = "Git files" })
+vim.keymap.set('n', '<leader>fl', function() require('telescope.builtin').live_grep() end, { desc = "Live grep" })
+vim.keymap.set('n', '<leader>fs', function() require('telescope.builtin').grep_string() end, { desc = "Grep string" })
+vim.keymap.set('n', '<leader>fb', function() require('telescope.builtin').buffers() end, { desc = "Buffers" })
+vim.keymap.set('n', '<leader>fh', function() require('telescope.builtin').help_tags() end, { desc = "Help tags" })
+vim.keymap.set('n', '<leader>fp', function()
+  require('telescope.builtin').grep_string({ search = vim.fn.input("Grep > ") })
+end, { desc = "Grep prompt" })
+vim.keymap.set("n", "<leader>fr", function()
+  require("telescope.builtin").resume()
+end, { desc = "Resume Last Telescope Search" })
+
+-- Trouble
+vim.keymap.set("n", "<leader>xx", function() require("trouble").toggle("diagnostics") end, { desc = "Toggle Trouble" })
+vim.keymap.set("n", "<leader>xq", function() require("trouble").toggle("quickfix") end, { desc = "Toggle Quickfix" })
+
+-- Zen Mode
+vim.keymap.set("n", "<leader>zz", function()
+  require("zen-mode").setup {
+    window = {
+      width = 90,
+      options = {}
+    },
+  }
+  require("zen-mode").toggle()
+  vim.wo.wrap = false
+  vim.wo.number = true
+  vim.wo.rnu = true
+  -- ColorMyPencils() -- Removed as function doesn't exist
+end, { desc = "Zen mode (90 width)" })
+
+vim.keymap.set("n", "<leader>zZ", function()
+  require("zen-mode").setup {
+    window = {
+      width = 80,
+      options = {}
+    },
+  }
+  require("zen-mode").toggle()
+  vim.wo.wrap = false
+  vim.wo.number = false
+  vim.wo.rnu = false
+  vim.opt.colorcolumn = "0"
+  -- ColorMyPencils() -- Removed as function doesn't exist
+end, { desc = "Zen mode (80 width, no numbers)" })
+
+-- =====================
+-- LSP KEYMAPS
+-- =====================
+
+-- LSP keymaps (moved from after/plugin/lsp.lua)
+vim.keymap.set("n", "gd", function() vim.lsp.buf.definition() end, { desc = "Go to definition" })
+vim.keymap.set("n", "K", function() vim.lsp.buf.hover() end, { desc = "LSP hover" })
+vim.keymap.set("n", "<leader>vws", function() vim.lsp.buf.workspace_symbol() end, { desc = "Workspace symbols" })
+vim.keymap.set("n", "<leader>vd", function() vim.diagnostic.open_float() end, { desc = "Open diagnostic float" })
+vim.keymap.set("n", "[d", function() vim.diagnostic.goto_next() end, { desc = "Next diagnostic" })
+vim.keymap.set("n", "]d", function() vim.diagnostic.goto_prev() end, { desc = "Previous diagnostic" })
+vim.keymap.set("n", "<leader>vca", function() vim.lsp.buf.code_action() end, { desc = "Code actions" })
+vim.keymap.set("n", "<leader>vrr", function() vim.lsp.buf.references() end, { desc = "References" })
+vim.keymap.set("n", "<leader>vrn", function() vim.lsp.buf.rename() end, { desc = "Rename" })
+vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end, { desc = "Signature help" })
 
 vim.api.nvim_create_user_command("Today", function()
   local date = os.date("%Y-%m-%d %A")
