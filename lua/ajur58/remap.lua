@@ -97,3 +97,29 @@ vim.keymap.set('n', '<leader>p', function()
   vim.opt.autoindent = old_ai
   vim.opt.smartindent = old_si
 end, { noremap = true, desc = "Paste without formatting" })
+
+vim.api.nvim_create_user_command("Today", function()
+  local date = os.date("%Y-%m-%d %A")
+  local notes_dir = vim.fn.expand("~/Code/second-brain/notes/daily/")
+  local filepath = notes_dir .. date .. ".md"
+
+  -- Ensure notes/ exists
+  if vim.fn.isdirectory(notes_dir) == 0 then
+    vim.fn.mkdir(notes_dir, "p")
+  end
+
+  -- Create file if it doesn't exist
+  if vim.fn.filereadable(filepath) == 0 then
+    local file = io.open(filepath, "w")
+    if file then
+      file:write("# " .. date .. "\n\n")
+      file:close()
+    else
+      print("⚠️ Failed to create file: " .. filepath)
+      return
+    end
+  end
+
+  -- Open the note
+  vim.cmd("edit " .. filepath)
+end, {})
