@@ -102,6 +102,15 @@ lspconfig.elixirls.setup({
   on_attach = lsp_attach,
   capabilities = lsp_capabilities,
   cmd = { "elixir-ls" },
+  settings = {
+    elixirLS = {
+      -- Disable ElixirLS formatter to avoid conflicts - use mix formatter via null-ls instead
+      enableTestLenses = false,
+      fetchDeps = false,
+      dialyzerEnabled = true,
+      formatProvider = false, -- Important: disable to prevent formatting conflicts
+    }
+  }
 })
 
 lspconfig.html.setup({
@@ -179,7 +188,7 @@ lspconfig.tailwindcss.setup({
     userLanguages = {
       elixir = "html-eex",
       eruby = "erb",
-      heex = "html-eex",
+      heex = "phoenix-heex",
       svelte = "html"
     },
   },
@@ -236,8 +245,8 @@ vim.api.nvim_create_autocmd("BufWritePre", {
           return client.name == "null-ls" -- Ensures Prettier from null-ls is used
         end
 
-        -- Use mix formatter via null-ls for Elixir files
-        if filetype == "elixir" then
+        -- Use mix formatter via null-ls for Elixir and HEEX files
+        if filetype == "elixir" or filetype == "heex" then
           return client.name == "null-ls"
         end
 
