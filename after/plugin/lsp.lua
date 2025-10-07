@@ -72,20 +72,19 @@ local lsp_attach = function(client, bufnr)
   -- This function now only handles buffer-local setup if needed
 end
 
-local lspconfig = require('lspconfig')
 require('mason-lspconfig').setup({
   handlers = {
     function(server_name)
-      lspconfig[server_name].setup({
+      vim.lsp.config[server_name] = {
         on_attach = lsp_attach,
         capabilities = lsp_capabilities,
-      })
+      }
     end,
   },
 })
 
 -- Fix Undefined global 'vim'
-lspconfig.lua_ls.setup({
+vim.lsp.config.lua_ls = {
   on_attach = lsp_attach,
   capabilities = lsp_capabilities,
   settings = {
@@ -95,10 +94,10 @@ lspconfig.lua_ls.setup({
       }
     }
   }
-})
+}
 
 -- Explicitly configure ElixirLS to ensure on_attach is called
-lspconfig.elixirls.setup({
+vim.lsp.config.elixirls = {
   on_attach = lsp_attach,
   capabilities = lsp_capabilities,
   cmd = { "elixir-ls" },
@@ -111,30 +110,39 @@ lspconfig.elixirls.setup({
       formatProvider = false, -- Important: disable to prevent formatting conflicts
     }
   }
-})
+}
 
-lspconfig.html.setup({
+vim.lsp.config.html = {
   on_attach = lsp_attach,
   capabilities = lsp_capabilities,
   filetypes = { "html", "jsx" }
-})
+}
 
-lspconfig.marksman.setup({
+vim.lsp.config.marksman = {
   on_attach = lsp_attach,
   capabilities = lsp_capabilities,
   filetypes = { "markdown", "markdown.mdx" }
-})
+}
 
 -- Tailwind CSS setup
-lspconfig.tailwindcss.setup({
+vim.lsp.config.tailwindcss = {
   on_attach = lsp_attach,
   capabilities = lsp_capabilities,
   root_dir = function(fname)
-    return require("lspconfig.util").root_pattern(
+    -- Handle case where fname might be a buffer number instead of a string
+    local path = fname
+    if type(fname) == "number" then
+      path = vim.api.nvim_buf_get_name(fname)
+      if path == "" then
+        path = vim.fn.getcwd()
+      end
+    end
+
+    return vim.fs.find({
       'assets/tailwind.config.js',
       'tailwind.config.js',
       'postcss.config.js'
-    )(fname)
+    }, { upward = true, path = path })[1]
   end,
   filetypes = {
     "aspnetcorerazor",
@@ -207,19 +215,19 @@ lspconfig.tailwindcss.setup({
       validate = true
     }
   }
-})
+}
 
 vim.diagnostic.config({
   virtual_text = true
 })
 
 -- TypeScript LSP setup
-lspconfig.ts_ls.setup({
+vim.lsp.config.ts_ls = {
   on_attach = lsp_attach,
   capabilities = lsp_capabilities,
   filetypes = { "typescript", "typescriptreact", "typescript.tsx", "javascript", "javascriptreact" },
   cmd = { "typescript-language-server", "--stdio" },
-})
+}
 
 local null_ls = require("null-ls")
 
@@ -233,6 +241,12 @@ null_ls.setup({
 vim.api.nvim_create_autocmd("BufWritePre", {
   pattern = { "*.ex", "*.exs", "*.heex", "*.js", "*.ts", "*.tsx", "*.json", "*.css", "*.html", "*.md", "*.yaml" },
   callback = function()
+    -- Skip formatting for lazy.lua to prevent corruption
+    local bufname = vim.api.nvim_buf_get_name(0)
+    if bufname:match("lazy%.lua$") then
+      return
+    end
+
     vim.lsp.buf.format({
       async = true,
       filter = function(client)
