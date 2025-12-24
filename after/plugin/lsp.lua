@@ -84,9 +84,14 @@ require('mason-lspconfig').setup({
 })
 
 -- Fix Undefined global 'vim'
+-- Disable formatting for lua_ls to prevent it from formatting lazy.lua
+local lua_capabilities = vim.deepcopy(lsp_capabilities)
+lua_capabilities.documentFormattingProvider = false
+lua_capabilities.documentRangeFormattingProvider = false
+
 vim.lsp.config.lua_ls = {
   on_attach = lsp_attach,
-  capabilities = lsp_capabilities,
+  capabilities = lua_capabilities,
   settings = {
     Lua = {
       diagnostics = {

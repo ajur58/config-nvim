@@ -7,7 +7,7 @@ vim.keymap.set("t", "<leader><Esc>", "<C-\\><C-n>")
 -- Code Formatter
 vim.keymap.set("n", "<leader>f", vim.lsp.buf.format)
 -- Format On Save
-vim.cmd [[autocmd BufWritePre * lua vim.lsp.buf.format()]]
+vim.cmd([[autocmd BufWritePre * lua vim.lsp.buf.format()]])
 
 -- Shorten function name
 local keymap = vim.keymap.set
@@ -19,7 +19,6 @@ keymap("n", "<C-h>", "<C-w>h")
 keymap("n", "<C-l>", "<C-w>l")
 keymap("n", "<C-k>", "<C-w>k")
 keymap("n", "<C-j>", "<C-w>j")
-
 
 -- In Visual mode, move lines up or down
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
@@ -45,14 +44,13 @@ vim.keymap.set("n", "<leader>j", "<cmd>lprev<CR>zz")
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
 vim.keymap.set("n", "<C-u>", "<C-u>zz")
 
-
 -- Comment.nvim keymaps (though it works automatically with gcc and gc)
-vim.keymap.set('n', '<leader>/', function()
-  require("Comment.api").toggle.linewise.current()
+vim.keymap.set("n", "<leader>/", function()
+	require("Comment.api").toggle.linewise.current()
 end)
-vim.keymap.set('v', '<leader>/', '<ESC><cmd>lua require("Comment.api").toggle.linewise(vim.fn.visualmode())<CR>')
+vim.keymap.set("v", "<leader>/", '<ESC><cmd>lua require("Comment.api").toggle.linewise(vim.fn.visualmode())<CR>')
 
-vim.keymap.set('n', '<leader><leader>', '<C-^>', { desc = "Switch to the last file" })
+vim.keymap.set("n", "<leader><leader>", "<C-^>", { desc = "Switch to the last file" })
 
 -- TMUX remaps
 vim.g.tmux_navigator_no_mappings = 1
@@ -62,40 +60,39 @@ vim.keymap.set("n", "<C-k>", ":TmuxNavigateUp<CR>", { silent = true, desc = "TMU
 vim.keymap.set("n", "<C-l>", ":TmuxNavigateRight<CR>", { silent = true, desc = "TMUX navigate right" })
 
 -- Copilot Chat keybindings
-vim.keymap.set('v', '<leader>ce', ':CopilotChatExplain<CR>', { desc = "Copilot explain code" })
-vim.keymap.set('v', '<leader>cr', ':CopilotChatReview<CR>', { desc = "Copilot review code" })
-vim.keymap.set('v', '<leader>ct', ':CopilotChatTests<CR>', { desc = "Copilot suggest tests" })
-vim.keymap.set('v', '<leader>cf', ':CopilotChatRefactor<CR>', { desc = "Copilot suggest refactor" })
-vim.keymap.set('v', '<leader>cq', function()
-  local question = vim.fn.input("Ask Copilot: ")
-  if question ~= "" then
-    vim.cmd("CopilotChat " .. question)
-  end
+vim.keymap.set("v", "<leader>ce", ":CopilotChatExplain<CR>", { desc = "Copilot explain code" })
+vim.keymap.set("v", "<leader>cr", ":CopilotChatReview<CR>", { desc = "Copilot review code" })
+vim.keymap.set("v", "<leader>ct", ":CopilotChatTests<CR>", { desc = "Copilot suggest tests" })
+vim.keymap.set("v", "<leader>cf", ":CopilotChatRefactor<CR>", { desc = "Copilot suggest refactor" })
+vim.keymap.set("v", "<leader>cq", function()
+	local question = vim.fn.input("Ask Copilot: ")
+	if question ~= "" then
+		vim.cmd("CopilotChat " .. question)
+	end
 end, { desc = "Ask Copilot a custom question" })
 
 -- greatest remap ever, for copy-pasting over highlighted text and keeping buffer
 -- DOES THIS CLASH WITH THE NEXT? Probably not as it's different modes.
 vim.keymap.set("x", "<leader>p", [["_dP]])
 
-
 -- Special paste mode handler
-vim.keymap.set('n', '<leader>p', function()
-  -- Enter paste mode
-  local old_paste = vim.opt.paste:get()
-  local old_ai = vim.opt.autoindent:get()
-  local old_si = vim.opt.smartindent:get()
+vim.keymap.set("n", "<leader>p", function()
+	-- Enter paste mode
+	local old_paste = vim.opt.paste:get()
+	local old_ai = vim.opt.autoindent:get()
+	local old_si = vim.opt.smartindent:get()
 
-  vim.opt.paste = true
-  vim.opt.autoindent = false
-  vim.opt.smartindent = false
+	vim.opt.paste = true
+	vim.opt.autoindent = false
+	vim.opt.smartindent = false
 
-  -- Wait for paste
-  vim.cmd('normal! "+p')
+	-- Wait for paste
+	vim.cmd('normal! "+p')
 
-  -- Restore previous settings
-  vim.opt.paste = old_paste
-  vim.opt.autoindent = old_ai
-  vim.opt.smartindent = old_si
+	-- Restore previous settings
+	vim.opt.paste = old_paste
+	vim.opt.autoindent = old_ai
+	vim.opt.smartindent = old_si
 end, { noremap = true, desc = "Paste without formatting" })
 
 -- =====================
@@ -103,12 +100,24 @@ end, { noremap = true, desc = "Paste without formatting" })
 -- =====================
 
 -- Harpoon
-vim.keymap.set("n", "<leader>a", function() require("harpoon.mark").add_file() end, { desc = "Harpoon add file" })
-vim.keymap.set("n", "<C-e>", function() require("harpoon.ui").toggle_quick_menu() end, { desc = "Harpoon quick menu" })
-vim.keymap.set("n", "<C-f>", function() require("harpoon.ui").nav_file(1) end, { desc = "Harpoon nav file 1" })
-vim.keymap.set("n", "<C-s>", function() require("harpoon.ui").nav_file(2) end, { desc = "Harpoon nav file 2" })
-vim.keymap.set("n", "<C-t>", function() require("harpoon.ui").nav_file(3) end, { desc = "Harpoon nav file 3" })
-vim.keymap.set("n", "<C-n>", function() require("harpoon.ui").nav_file(4) end, { desc = "Harpoon nav file 4" })
+vim.keymap.set("n", "<leader>a", function()
+	require("harpoon.mark").add_file()
+end, { desc = "Harpoon add file" })
+vim.keymap.set("n", "<C-e>", function()
+	require("harpoon.ui").toggle_quick_menu()
+end, { desc = "Harpoon quick menu" })
+vim.keymap.set("n", "<C-f>", function()
+	require("harpoon.ui").nav_file(1)
+end, { desc = "Harpoon nav file 1" })
+vim.keymap.set("n", "<C-s>", function()
+	require("harpoon.ui").nav_file(2)
+end, { desc = "Harpoon nav file 2" })
+vim.keymap.set("n", "<C-t>", function()
+	require("harpoon.ui").nav_file(3)
+end, { desc = "Harpoon nav file 3" })
+vim.keymap.set("n", "<C-n>", function()
+	require("harpoon.ui").nav_file(4)
+end, { desc = "Harpoon nav file 4" })
 
 -- Undotree
 vim.keymap.set("n", "<leader>u", vim.cmd.UndotreeToggle, { desc = "Toggle undotree" })
@@ -117,51 +126,67 @@ vim.keymap.set("n", "<leader>u", vim.cmd.UndotreeToggle, { desc = "Toggle undotr
 vim.keymap.set("n", "<leader>gs", vim.cmd.Git, { desc = "Git status" })
 
 -- Telescope
-vim.keymap.set('n', '<leader>ff', function() require('telescope.builtin').find_files() end, { desc = "Find files" })
-vim.keymap.set('n', '<leader>fg', function() require('telescope.builtin').git_files() end, { desc = "Git files" })
-vim.keymap.set('n', '<leader>fl', function() require('telescope.builtin').live_grep() end, { desc = "Live grep" })
-vim.keymap.set('n', '<leader>fs', function() require('telescope.builtin').grep_string() end, { desc = "Grep string" })
-vim.keymap.set('n', '<leader>fb', function() require('telescope.builtin').buffers() end, { desc = "Buffers" })
-vim.keymap.set('n', '<leader>fh', function() require('telescope.builtin').help_tags() end, { desc = "Help tags" })
-vim.keymap.set('n', '<leader>fp', function()
-  require('telescope.builtin').grep_string({ search = vim.fn.input("Grep > ") })
+vim.keymap.set("n", "<leader>ff", function()
+	require("telescope.builtin").find_files()
+end, { desc = "Find files" })
+vim.keymap.set("n", "<leader>fg", function()
+	require("telescope.builtin").git_files()
+end, { desc = "Git files" })
+vim.keymap.set("n", "<leader>fl", function()
+	require("telescope.builtin").live_grep()
+end, { desc = "Live grep" })
+vim.keymap.set("n", "<leader>fs", function()
+	require("telescope.builtin").grep_string()
+end, { desc = "Grep string" })
+vim.keymap.set("n", "<leader>fb", function()
+	require("telescope.builtin").buffers()
+end, { desc = "Buffers" })
+vim.keymap.set("n", "<leader>fh", function()
+	require("telescope.builtin").help_tags()
+end, { desc = "Help tags" })
+vim.keymap.set("n", "<leader>fp", function()
+	require("telescope.builtin").grep_string({ search = vim.fn.input("Grep > ") })
 end, { desc = "Grep prompt" })
 vim.keymap.set("n", "<leader>fr", function()
-  require("telescope.builtin").resume()
+	require("telescope.builtin").resume()
 end, { desc = "Resume Last Telescope Search" })
 
 -- Trouble
-vim.keymap.set("n", "<leader>xx", function() require("trouble").toggle("diagnostics") end, { desc = "Toggle Trouble" })
-vim.keymap.set("n", "<leader>xq", function() require("trouble").toggle("quickfix") end, { desc = "Toggle Quickfix" })
+vim.keymap.set("n", "<leader>xx", function()
+	require("trouble").toggle("diagnostics")
+end, { desc = "Toggle Trouble" })
+vim.keymap.set("n", "<leader>xq", function()
+	require("trouble").toggle("quickfix")
+end, { desc = "Toggle Quickfix" })
 
 -- Zen Mode
 vim.keymap.set("n", "<leader>zz", function()
-  require("zen-mode").setup {
-    window = {
-      width = 90,
-      options = {}
-    },
-  }
-  require("zen-mode").toggle()
-  vim.wo.wrap = false
-  vim.wo.number = true
-  vim.wo.rnu = true
-  -- ColorMyPencils() -- Removed as function doesn't exist
+	require("zen-mode").setup({
+		window = {
+			width = 90,
+			options = {},
+		},
+	})
+	require("zen-mode").toggle()
+	vim.wo.wrap = false
+	vim.wo.number = true
+	vim.wo.rnu = true
+	-- ColorMyPencils() -- Removed as function doesn't exist
 end, { desc = "Zen mode (90 width)" })
 
 vim.keymap.set("n", "<leader>zZ", function()
-  require("zen-mode").setup {
-    window = {
-      width = 80,
-      options = {}
-    },
-  }
-  require("zen-mode").toggle()
-  vim.wo.wrap = false
-  vim.wo.number = false
-  vim.wo.rnu = false
-  vim.opt.colorcolumn = "0"
-  -- ColorMyPencils() -- Removed as function doesn't exist
+	require("zen-mode").setup({
+		window = {
+			width = 80,
+			options = {},
+		},
+	})
+	require("zen-mode").toggle()
+	vim.wo.wrap = false
+	vim.wo.number = false
+	vim.wo.rnu = false
+	vim.opt.colorcolumn = "0"
+	-- ColorMyPencils() -- Removed as function doesn't exist
 end, { desc = "Zen mode (80 width, no numbers)" })
 
 -- =====================
@@ -169,39 +194,57 @@ end, { desc = "Zen mode (80 width, no numbers)" })
 -- =====================
 
 -- LSP keymaps (moved from after/plugin/lsp.lua)
-vim.keymap.set("n", "gd", function() vim.lsp.buf.definition() end, { desc = "Go to definition" })
-vim.keymap.set("n", "K", function() vim.lsp.buf.hover() end, { desc = "LSP hover" })
-vim.keymap.set("n", "<leader>vws", function() vim.lsp.buf.workspace_symbol() end, { desc = "Workspace symbols" })
-vim.keymap.set("n", "<leader>vd", function() vim.diagnostic.open_float() end, { desc = "Open diagnostic float" })
-vim.keymap.set("n", "[d", function() vim.diagnostic.goto_next() end, { desc = "Next diagnostic" })
-vim.keymap.set("n", "]d", function() vim.diagnostic.goto_prev() end, { desc = "Previous diagnostic" })
-vim.keymap.set("n", "<leader>vca", function() vim.lsp.buf.code_action() end, { desc = "Code actions" })
-vim.keymap.set("n", "<leader>vrr", function() vim.lsp.buf.references() end, { desc = "References" })
-vim.keymap.set("n", "<leader>vrn", function() vim.lsp.buf.rename() end, { desc = "Rename" })
-vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end, { desc = "Signature help" })
+vim.keymap.set("n", "gd", function()
+	vim.lsp.buf.definition()
+end, { desc = "Go to definition" })
+vim.keymap.set("n", "K", function()
+	vim.lsp.buf.hover()
+end, { desc = "LSP hover" })
+vim.keymap.set("n", "<leader>vws", function()
+	vim.lsp.buf.workspace_symbol()
+end, { desc = "Workspace symbols" })
+vim.keymap.set("n", "<leader>vd", function()
+	vim.diagnostic.open_float()
+end, { desc = "Open diagnostic float" })
+vim.keymap.set("n", "[d", function()
+	vim.diagnostic.goto_next()
+end, { desc = "Next diagnostic" })
+vim.keymap.set("n", "]d", function()
+	vim.diagnostic.goto_prev()
+end, { desc = "Previous diagnostic" })
+vim.keymap.set("n", "<leader>vca", function()
+	vim.lsp.buf.code_action()
+end, { desc = "Code actions" })
+vim.keymap.set("n", "<leader>vrr", function()
+	vim.lsp.buf.references()
+end, { desc = "References" })
+vim.keymap.set("n", "<leader>vrn", function()
+	vim.lsp.buf.rename()
+end, { desc = "Rename" })
+vim.keymap.set("i", "<C-h>", function()
+	vim.lsp.buf.signature_help()
+end, { desc = "Signature help" })
 
 vim.api.nvim_create_user_command("Today", function()
-  local date = os.date("%Y-%m-%d %A")
-  local notes_dir = vim.fn.expand("~/Code/second-brain/notes/daily/")
-  local filepath = notes_dir .. date .. ".md"
+	local date = os.date("%Y-%m-%d %A")
+	local notes_dir = vim.fn.expand("~/Code/second-brain/notes/daily/")
+	local filepath = notes_dir .. date .. ".md"
 
-  -- Ensure notes/ exists
-  if vim.fn.isdirectory(notes_dir) == 0 then
-    vim.fn.mkdir(notes_dir, "p")
-  end
+	-- Ensure notes/ exists
+	if vim.fn.isdirectory(notes_dir) == 0 then
+		vim.fn.mkdir(notes_dir, "p")
+	end
 
-  -- Create file if it doesn't exist
-  if vim.fn.filereadable(filepath) == 0 then
-    local file = io.open(filepath, "w")
-    if file then
-      file:write("# " .. date .. "\n\n")
-      file:close()
-    else
-      print("⚠️ Failed to create file: " .. filepath)
-      return
-    end
-  end
+	-- Create file if it doesn't exist
+	if vim.fn.filereadable(filepath) == 0 then
+		local file = io.open(filepath, "w")
+		if file then
+			file:write("# " .. date .. "\n\n")
+			file:close()
+		else
+			print("⚠️ Failed to create file: " .. filepath)    retur    ed
+  en
 
-  -- Open the note
+  -- Open the noe
   vim.cmd("edit " .. filepath)
 end, {})

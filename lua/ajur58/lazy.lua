@@ -117,6 +117,7 @@ require("lazy").setup({
 			{ "<leader>fs", desc = "Grep String" },
 			{ "<leader>fb", desc = "Buffers" },
 			{ "<leader>fh", desc = "Help Tags" },
+			{ "<leader>fh", desc = "Help Tags" },
 			{ "<leader>fp", desc = "Grep Prompt" },
 		},
 		dependencies = {
