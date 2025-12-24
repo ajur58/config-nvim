@@ -9,6 +9,9 @@ vim.opt.termguicolors = true
 
 require("ajur58")
 
+-- Set colorscheme after plugins load
+vim.cmd.colorscheme("habamax")
+
 -- Reload file when aider makes changes
 vim.opt.autoread = true
 vim.api.nvim_create_augroup("autoreload", { clear = true })

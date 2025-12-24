@@ -18,8 +18,12 @@ require("lazy").setup({
 	-- Navigation and utilities
 	{
 		"theprimeagen/harpoon",
+		branch = "harpoon2",
 		event = "VeryLazy",
 		dependencies = { "nvim-lua/plenary.nvim" },
+		config = function()
+			require("harpoon"):setup()
+		end,
 		-- Keymaps moved to remap.lua
 	},
 	{
@@ -32,39 +36,56 @@ require("lazy").setup({
 		event = "VeryLazy",
 		-- Keymaps moved to remap.lua
 	},
+	{
+		"kdheepak/lazygit.nvim",
+		cmd = {
+			"LazyGit",
+			"LazyGitConfig",
+			"LazyGitCurrentFile",
+			"LazyGitFilter",
+			"LazyGitFilterCurrentFile",
+		},
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+		},
+		-- Keymaps moved to remap.lua
+	},
 
 	-- Treesitter for syntax highlighting
 	{
 		"nvim-treesitter/nvim-treesitter",
+		lazy = false,
 		build = ":TSUpdate",
 		dependencies = {
 			"windwp/nvim-ts-autotag",
 		},
 		config = function()
-			local treesitter_config = require("nvim-treesitter.configs")
-			treesitter_config.setup({
-				ensure_installed = {
-					"lua",
-					"vim",
-					"vimdoc",
-					"javascript",
-					"typescript",
-					"elixir",
-					"heex",
-					"eex",
-					"cmake",
-				},
-				sync_install = false,
-				auto_install = true,
-				highlight = {
-					enable = true,
-				},
-				indent = {
-					enable = true,
-				},
+			-- Enable treesitter highlighting
+			local filetypes = {
+				"lua",
+				"vim",
+				"vimdoc",
+				"elixir",
+				"eex",
+				"heex",
+				"javascript",
+				"typescript",
+				"javascriptreact",
+				"typescriptreact",
+				"html",
+				"css",
+				"json",
+				"markdown",
+			}
+
+			vim.api.nvim_create_autocmd("FileType", {
+				group = vim.api.nvim_create_augroup("TreesitterHighlight", { clear = true }),
+				pattern = filetypes,
+				callback = function(args)
+					vim.treesitter.start(args.buf)
+				end,
 			})
 
-			-- Enable autotag
 			require("nvim-ts-autotag").setup()
 		end,
 	},
@@ -100,6 +121,20 @@ require("lazy").setup({
 						},
 					},
 				},
+				on_attach = function(bufnr)
+					local api = require("nvim-tree.api")
+
+					local function opts(desc)
+						return { desc = "nvim-tree: " .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
+					end
+
+					-- Default mappings
+					api.config.mappings.default_on_attach(bufnr)
+
+					-- Custom mappings
+					vim.keymap.set("n", "l", api.node.open.edit, opts("Open"))
+					vim.keymap.set("n", "h", api.node.navigate.parent_close, opts("Close Directory"))
+				end,
 			})
 		end,
 	},
@@ -107,7 +142,7 @@ require("lazy").setup({
 	-- Telescope File Search
 	{
 		"nvim-telescope/telescope.nvim",
-		tag = "0.1.5",
+		branch = "master",
 		lazy = false,
 		priority = 1000,
 		keys = {
@@ -116,7 +151,6 @@ require("lazy").setup({
 			{ "<leader>fl", desc = "Live Grep" },
 			{ "<leader>fs", desc = "Grep String" },
 			{ "<leader>fb", desc = "Buffers" },
-			{ "<leader>fh", desc = "Help Tags" },
 			{ "<leader>fh", desc = "Help Tags" },
 			{ "<leader>fp", desc = "Grep Prompt" },
 		},
@@ -151,35 +185,6 @@ require("lazy").setup({
 		end,
 	},
 
-	-- Theme
-	-- {
-	--   "rebelot/kanagawa.nvim",
-	--   config = function()
-	--     function ColorMyPencils(color)
-	--       color = "kanagawa-dragon"
-	--       vim.cmd.colorscheme(color)
-	--
-	--       vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
-	--       vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
-	--     end
-	--
-	--     ColorMyPencils()
-	--   end,
-	--   priority = 1000,
-	-- },
-	{
-		"zenbones-theme/zenbones.nvim",
-		-- Optionally install Lush. Allows for more configuration or extending the colorscheme
-		-- If you don't want to install lush, make sure to set g:zenbones_compat = 1
-		-- In Vim, compat mode is turned on as Lush only works in Neovim.
-		dependencies = "rktjmp/lush.nvim",
-		lazy = false,
-		priority = 1000,
-		config = function()
-			--     vim.g.zenbones_darken_comments = 45
-			vim.cmd.colorscheme("forestbones")
-		end,
-	},
 
 	-- LSP Support
 	{
@@ -188,10 +193,45 @@ require("lazy").setup({
 			"williamboman/mason.nvim",
 			"williamboman/mason-lspconfig.nvim",
 			"folke/neodev.nvim",
-			"nvimtools/none-ls.nvim",
 		},
 		config = function()
 			require("neodev").setup()
+		end,
+	},
+
+	-- Formatting
+	{
+		"stevearc/conform.nvim",
+		event = { "BufReadPre", "BufNewFile" },
+		config = function()
+			local conform = require("conform")
+			conform.setup({
+				formatters_by_ft = {
+					javascript = { "prettierd" },
+					typescript = { "prettierd" },
+					javascriptreact = { "prettierd" },
+					typescriptreact = { "prettierd" },
+					json = { "prettierd" },
+					css = { "prettierd" },
+					html = { "prettierd" },
+					markdown = { "prettierd" },
+					yaml = { "prettierd" },
+					elixir = { "mix" },
+					heex = { "mix" },
+					lua = { "stylua" },
+				},
+				format_on_save = function(bufnr)
+					-- Skip formatting for lazy.lua
+					local bufname = vim.api.nvim_buf_get_name(bufnr)
+					if bufname:match("lazy%.lua$") then
+						return
+					end
+					return {
+						timeout_ms = 500,
+						lsp_fallback = true,
+					}
+				end,
+			})
 		end,
 	},
 
@@ -202,8 +242,8 @@ require("lazy").setup({
 			"hrsh7th/cmp-nvim-lsp",
 			"hrsh7th/cmp-buffer",
 			"hrsh7th/cmp-path",
-			"hrsh7th/cmp-vsnip",
-			"hrsh7th/vim-vsnip",
+			"L3MON4D3/LuaSnip",
+			"saadparwaiz1/cmp_luasnip",
 			"rafamadriz/friendly-snippets",
 		},
 	},
@@ -252,7 +292,7 @@ require("lazy").setup({
 		config = function()
 			require("lualine").setup({
 				options = {
-					theme = "zenbones",
+					theme = "auto",
 					component_separators = "|",
 					section_separators = { left = "", right = "" },
 				},

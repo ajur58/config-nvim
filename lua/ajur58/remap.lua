@@ -4,10 +4,10 @@ vim.keymap.set("n", "<leader>mc", ":NvimTreeToggle<cr>")
 -- Exit Terminal mode
 vim.keymap.set("t", "<leader><Esc>", "<C-\\><C-n>")
 
--- Code Formatter
-vim.keymap.set("n", "<leader>f", vim.lsp.buf.format)
--- Format On Save
-vim.cmd([[autocmd BufWritePre * lua vim.lsp.buf.format()]])
+-- Code Formatter (using conform.nvim)
+vim.keymap.set("n", "<leader>f", function()
+	require("conform").format({ async = true, lsp_fallback = true })
+end, { desc = "Format buffer" })
 
 -- Shorten function name
 local keymap = vim.keymap.set
@@ -99,31 +99,36 @@ end, { noremap = true, desc = "Paste without formatting" })
 -- PLUGIN KEYMAPS
 -- =====================
 
--- Harpoon
+-- Harpoon 2
+local harpoon = require("harpoon")
 vim.keymap.set("n", "<leader>a", function()
-	require("harpoon.mark").add_file()
+	harpoon:list():add()
 end, { desc = "Harpoon add file" })
 vim.keymap.set("n", "<C-e>", function()
-	require("harpoon.ui").toggle_quick_menu()
+	harpoon.ui:toggle_quick_menu(harpoon:list())
 end, { desc = "Harpoon quick menu" })
 vim.keymap.set("n", "<C-f>", function()
-	require("harpoon.ui").nav_file(1)
+	harpoon:list():select(1)
 end, { desc = "Harpoon nav file 1" })
 vim.keymap.set("n", "<C-s>", function()
-	require("harpoon.ui").nav_file(2)
+	harpoon:list():select(2)
 end, { desc = "Harpoon nav file 2" })
 vim.keymap.set("n", "<C-t>", function()
-	require("harpoon.ui").nav_file(3)
+	harpoon:list():select(3)
 end, { desc = "Harpoon nav file 3" })
 vim.keymap.set("n", "<C-n>", function()
-	require("harpoon.ui").nav_file(4)
+	harpoon:list():select(4)
 end, { desc = "Harpoon nav file 4" })
 
 -- Undotree
 vim.keymap.set("n", "<leader>u", vim.cmd.UndotreeToggle, { desc = "Toggle undotree" })
 
--- Fugitive
-vim.keymap.set("n", "<leader>gs", vim.cmd.Git, { desc = "Git status" })
+-- LazyGit (LazyVim-style keybindings)
+vim.keymap.set("n", "<leader>gg", ":LazyGit<CR>", { desc = "LazyGit", silent = true })
+vim.keymap.set("n", "<leader>gf", ":LazyGitCurrentFile<CR>", { desc = "LazyGit Current File", silent = true })
+
+-- Fugitive (keeping for advanced git operations)
+vim.keymap.set("n", "<leader>gS", vim.cmd.Git, { desc = "Git status (fugitive)", silent = true })
 
 -- Telescope
 vim.keymap.set("n", "<leader>ff", function()
@@ -242,9 +247,11 @@ vim.api.nvim_create_user_command("Today", function()
 			file:write("# " .. date .. "\n\n")
 			file:close()
 		else
-			print("⚠️ Failed to create file: " .. filepath)    retur    ed
-  en
+			print("⚠️ Failed to create file: " .. filepath)
+			return
+		end
+	end
 
-  -- Open the noe
-  vim.cmd("edit " .. filepath)
+	-- Open the note
+	vim.cmd("edit " .. filepath)
 end, {})
